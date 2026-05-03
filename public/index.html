@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><title>Cajero - Ariana</title></head>
+<body>
+    <h1>🌽 Nuevo Pedido</h1>
+    <input id="cliente" placeholder="Nombre cliente">
+    <div id="menu">
+        <!-- Aquí cargarás el menú desde menu.json -->
+    </div>
+    <button onclick="enviarPedido()">Enviar a Cocina</button>
+    <script>
+        async function enviarPedido() {
+            const cliente = document.getElementById('cliente').value;
+            const res = await fetch('/api/pedido', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({cliente, items: "Empanadas Carne"})
+            });
+            alert("✅ Pedido enviado a cocina");
+        }
+    </script>
+</body>
+</html>
