@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><title>Cocina - Lonchería Ariana</title></head>
+<body>
+    <h1>🍳 Órdenes en Cocina</h1>
+    <div id="lista-pedidos"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.on('nuevo_pedido', (pedido) => {
+            const div = document.createElement('div');
+            div.id = `pedido-${pedido.id}`;
+            div.innerHTML = `<h3>Pedido #${pedido.id}</h3><p>${pedido.items}</p><button onclick="cambiar(${pedido.id}, 'Listo')">Listo</button>`;
+            document.getElementById('lista-pedidos').appendChild(div);
+        });
+        async function cambiar(id, estado) {
+            await fetch('/api/estado', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id, estado})
+            });
+            document.getElementById(`pedido-${id}`).remove();
+        }
+    </script>
+</body>
+</html>
